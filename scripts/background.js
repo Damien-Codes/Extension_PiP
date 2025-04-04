@@ -1,6 +1,6 @@
-// Gestion des clics sur l'icône
+// Gestion du clic sur l'icône
 chrome.browserAction.onClicked.addListener((tab) => {
-  chrome.tabs.sendMessage(tab.id, { action: "activate-pip" });
+  chrome.tabs.sendMessage(tab.id, {action: "activate-pip"});
 });
 
 // Gestion des alertes
