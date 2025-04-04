@@ -77,3 +77,5 @@ Pour le débogage avancé :
 ├── 📄background.js    # Communication cross-context
 └── 📂icons            # Assets visuels# Extension_PiP
 "# Extension_PiP" 
+"# Extension_PiP" 
+"# Extension_PiP" 
