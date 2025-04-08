@@ -1,5 +1,4 @@
 function findVideoElement() {
-  // Détection optimisée pour YouTube 2024
   const selectors = [
     '#movie_player video',
     'ytd-player video',
@@ -29,11 +28,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           console.error('[PiP] Erreur:', error);
           sendResponse({error: error.message});
         });
-      return true; // Garde le canal ouvert pour la réponse asynchrone
+      return true;
     } else {
       const errorMsg = video ? "PiP désactivé pour cette vidéo" : "Aucune vidéo trouvée";
       console.warn('[PiP]', errorMsg);
       sendResponse({error: errorMsg});
     }
+  }
+  if (request.action === "get-video-info") {
+    const video = findVideoElement();
+    if (video) {
+      sendResponse({ success: true, currentTime: video.currentTime });
+    } else {
+      sendResponse({ error: "Aucune vidéo trouvée" });
+    }
+    return true;
   }
 });
