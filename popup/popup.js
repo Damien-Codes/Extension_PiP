@@ -1,31 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Popup.js chargé');
+  // Animation d'entrée
+  document.body.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 });
 
-  // Animation au chargement
-  document.body.style.opacity = '0';
-  setTimeout(() => {
-    document.body.style.transition = 'opacity 0.3s';
-    document.body.style.opacity = '1';
-  }, 100);
-
-  // Gestion PiP
-  document.getElementById('pipButton').addEventListener('click', () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      if (!tab) return;
+  // Gestion du bouton PiP
+  document.getElementById('pipButton').addEventListener('click', async () => {
+    const button = document.getElementById('pipButton');
+    const originalHTML = button.innerHTML;
+    
+    try {
+      button.innerHTML = '⏳ Chargement...';
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       
-      const pipButton = document.getElementById('pipButton');
-      pipButton.innerHTML = '<span class="icon">⏳</span><span class="text">Chargement...</span>';
-      
-      chrome.tabs.sendMessage(tab.id, { action: "activate-pip" }, (response) => {
-        pipButton.innerHTML = '<span class="icon">🎥</span><span class="text">Activer le Mode PiP</span>';
-        
-        if (chrome.runtime.lastError || !response?.success) {
-          pipButton.style.background = '#ff6666';
-          setTimeout(() => {
-            pipButton.style.background = 'linear-gradient(135deg, #ff3333, #cc0000)';
-          }, 1000);
-        }
+      // Injection explicite du script
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['scripts/content.js']
       });
-    });
+
+      // Envoi du message
+      const response = await chrome.tabs.sendMessage(tab.id, { action: "activate-pip" });
+      
+      if (response?.success) {
+        button.innerHTML = '🎥 PiP Activé';
+        setTimeout(() => button.innerHTML = originalHTML, 2000);
+      } else {
+        throw new Error(response?.error || 'Échec inconnu');
+      }
+      
+    } catch (error) {
+    }
   });
 });

@@ -1,23 +1,19 @@
 {
-  "manifest_version": 2,
-  "name": "Picture-in-Picture Extension",
-  "version": "2.1",
-  "permissions": [
-    "activeTab",
-    "https://*.youtube.com/*",
-    "scripting"
-  ],
-  "background": {
-    "scripts": ["scripts/background.js"],
-    "persistent": false
-  },
-  "browser_action": {
+  "manifest_version": 3,
+  "name": "YouTube PiP & QR",
+  "version": "3.0",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "host_permissions": ["*://*.youtube.com/*", "https://api.qrserver.com/*"],
+  "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
+  },
+  "background": {
+    "service_worker": "scripts/background.js"
   },
   "content_scripts": [
     {
@@ -31,5 +27,9 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": ["popup/*"],
+    "matches": ["*://*.youtube.com/*"]
+  }]
 }

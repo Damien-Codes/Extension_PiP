@@ -1,82 +1,76 @@
-# Extension Picture-in-Picture pour YouTube 🎥
+# Extension YouTube PiP & QR 🎥📱
 
-[![Version](https://img.shields.io/badge/version-2.0-blue)]()
-[![Compatibilité](https://img.shields.io/badge/navigateurs-Chrome%20|%20Edge%20|%20Firefox-success)]()
+[![Version](https://img.shields.io/badge/version-3.1-blue)]()  
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-9cf)](https://developer.chrome.com/docs/extensions/mv3/)  
+[![Compatibilité](https://img.shields.io/badge/navigateurs-Chrome_105+%20|%20Edge_105+%20|%20Firefox_Bêta-success)]()
 
-Une extension légère pour activer le mode Picture-in-Picture sur YouTube en un clic. Parfaite pour le multitâche !
+Une extension légère et moderne pour activez le mode Picture-in-Picture et partagez des vidéos via QR Code en un clic ! Parfaite pour le multitâche !
 
 ## Fonctionnalités ✨
 
-- **Activation manuelle du PiP** via un bouton dédié
-- Compatible avec la nouvelle interface YouTube (2024)
-- Détection intelligente des vidéos dans les Shadow DOM et iframes
-- Interface minimaliste et intuitive
-- Alertes contextuelles en cas d'erreur
+- **Mode PiP instantané**  
+  - Compatible avec les live streams et les shorts
+  - Détection automatique des vidéos dans les iframes
+- **Partage intelligent**  
+  - QR Code personnalisable (🔴 rouge/noir ⚫)
+  - Timestamp préservé pour la reprise de lecture
+- **Optimisé pour MV3**  
+  - Service worker non persistant
+  - Sécurité renforcée
+  - Performances améliorées
+
+## Nouveautés v3 🚀
+- 🎨 Thème visuel repensé
+- 🔒 Conforme aux dernières normes Chrome
+- 📦 Structure de fichiers simplifiée
+- 🐛 Correctifs de stabilité
 
 ## Installation 🛠️
 
 ### Pour Chrome/Edge (Chromium)
-1. Téléchargez les fichiers de l'extension
-2. Accédez à `chrome://extensions` ou `edge://extensions`
-3. Activez le **Mode développeur** 🧑💻
-4. Cliquez sur "Charger l'extension non empaquetée"
-5. Sélectionnez le dossier contenant les fichiers
+
+1. **Téléchargez** les fichiers de l'extension (.ZIP)
+2. **Décompressez** l'archive dans un dossier
+3. Accédez à :  
+   `chrome://extensions` (Chrome)  
+   `edge://extensions` (Edge)  
+4. Activez le **Mode développeur** (toggle en haut à droite)
+5. Cliquez sur **"Charger l'extension non empaquetée"**
+6. Sélectionnez le dossier décompressé
 
 ### Pour Firefox
-1. Téléchargez les fichiers
-2. Accédez à `about:debugging#/runtime/this-firefox`
-3. Cliquez sur "Charger un module temporaire"
+
+1. **Téléchargez** les fichiers de l'extension
+2. Accédez à :  
+   `about:debugging#/runtime/this-firefox`  
+3. Cliquez sur **"Charger un module temporaire"**
 4. Sélectionnez le fichier `manifest.json`
 
 ## Utilisation 🚀
 
-1. Ouvrez une vidéo YouTube
-2. Cliquez sur l'icône de l'extension dans la barre d'outils
-3. Deux options :
-   - **Clic direct** sur l'icône 🖱️
-   - Ouverture du popup et clic sur "Activer PiP" 🎬
+1. **Sur YouTube** :  
+   - Lancez la lecture d'une vidéo  
+   - Attendez 2-3 secondes que le lecteur se charge  
 
-La vidéo apparaît instantanément en fenêtre flottante !
+2. **Cliquez** sur l'icône 🔴 de l'extension  
 
-## Structure des fichiers 📂
+3. **Menu Popup** :  
+   - 🎥 **Bouton PiP** : Active/désactive le mode Picture-in-Picture  
+   - 📱 **Bouton QR Code** : Ouvre le générateur avec :  
+     • Lien vers la vidéo  
+     • Position actuelle de lecture préservée  
 
-| Fichier          | Description                                                                 |
-|------------------|-----------------------------------------------------------------------------|
-| `manifest.json`  | Configuration principale de l'extension                                     |
-| `content.js`     | Détection des vidéos et gestion du PiP (inclut traversée du Shadow DOM)     |
-| `popup.js`       | Gestion de l'interface utilisateur du popup                                 |
-| `background.js`  | Communication entre les composants de l'extension                           |
-| `popup.html`     | Structure HTML du menu popup                                                |
-| `icons/`         | Dossier contenant les icônes de l'extension (16px, 48px, 128px)            |
+4. **Fermeture** :  
+   - Cliquez en dehors du popup ou sur la croix ×  
+   - Pour le PiP : fermez la fenêtre flottante normalement  
 
-## Dépannage 🔧
+*Conseil* : Le QR Code reste valable même si vous quittez YouTube !
 
-**Problème** | **Solution** 
+
+## Dépannage 🛠️
+
+**Problème courant** | **Solution rapide**
 ---|---
-"Aucune vidéo trouvée" | Actualisez la page et attendez 5s avant de cliquer
-Le PiP ne s'active pas | Vérifiez que la vidéo est en lecture
-Erreurs de permissions | Rechargez l'extension en mode développeur
-
-Pour le débogage avancé :
-1. Ouvrez la console (F12) sur YouTube
-2. Filtrez les logs par "[Extension]"
-3. Vérifiez les messages d'erreur
-
-## Développement 💻
-
-### Prérequis
-- Connaissance basique du JavaScript
-- Navigateur moderne (Chrome 90+ recommandé)
-
-### Architecture clé :
-```plaintext
-📦extension-pip
-├── 📄manifest.json
-├── 📄content.js       # Cœur de la détection vidéo
-├── 📄popup.js         # Gestion des interactions
-├── 📄background.js    # Communication cross-context
-└── 📂icons            # Assets visuels# Extension_PiP
-"# Extension_PiP" 
-"# Extension_PiP" 
-"# Extension_PiP" 
-"# Extension_PiP" 
+"Vidéo non détectée" | 1. Actualisez la page<br>2. Patientez 3s avant de cliquer
+PiP inactif | • Vérifiez que la vidéo n'est pas en pause<br>• Testez sur une autre vidéo
+QR Code non généré | Autorisez les requêtes vers `api.qrserver.com`

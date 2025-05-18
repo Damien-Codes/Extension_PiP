@@ -1,11 +1,7 @@
-chrome.browserAction.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener(async (tab) => {
+  await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ['scripts/content.js']
+  });
   chrome.tabs.sendMessage(tab.id, { action: "activate-pip" });
-});
-
-chrome.runtime.onMessage.addListener((request) => {
-  if (request.action === "show-alert") {
-    chrome.tabs.executeScript({
-      code: "alert('Veuillez démarrer une vidéo avant de cliquer !')"
-    });
-  }
 });

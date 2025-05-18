@@ -3,10 +3,9 @@ function findVideoElement() {
     '#movie_player video',
     'ytd-player video',
     '.html5-main-video',
-    'video.stream-engine',
     'video'
   ];
-
+  
   for (const selector of selectors) {
     const video = document.querySelector(selector);
     if (video && video.readyState > 0) return video;
@@ -15,32 +14,31 @@ function findVideoElement() {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('[Content] Message reçu:', request.action);
+
+  // Ajout de la gestion PiP manquante
   if (request.action === "activate-pip") {
     const video = findVideoElement();
-    
     if (video && !video.disablePictureInPicture) {
       video.requestPictureInPicture()
-        .then(() => {
-          console.log('[PiP] Activé avec succès');
-          sendResponse({success: true});
-        })
-        .catch(error => {
-          console.error('[PiP] Erreur:', error);
-          sendResponse({error: error.message});
-        });
+        .then(() => sendResponse({ success: true }))
+        .catch(error => sendResponse({ error: error.message }));
       return true;
-    } else {
-      const errorMsg = video ? "PiP désactivé pour cette vidéo" : "Aucune vidéo trouvée";
-      console.warn('[PiP]', errorMsg);
-      sendResponse({error: errorMsg});
     }
+    sendResponse({ error: "Aucune vidéo compatible trouvée" });
+    return true;
   }
+
   if (request.action === "get-video-info") {
     const video = findVideoElement();
     if (video) {
-      sendResponse({ success: true, currentTime: video.currentTime });
+      sendResponse({ 
+        success: true, 
+        currentTime: video.currentTime,
+        duration: video.duration
+      });
     } else {
-      sendResponse({ error: "Aucune vidéo trouvée" });
+      sendResponse({ error: "Aucune vidéo détectée" });
     }
     return true;
   }
